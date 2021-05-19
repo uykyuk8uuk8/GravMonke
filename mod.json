@@ -1,0 +1,25 @@
+{
+    "_QPVersion": "0.1.0",
+    "name": "Grav Monke",
+    "id": "GravMonke",
+    "author": "RedBrumbler",
+    "version": "1.0.0",
+    "packageId": "com.AnotherAxiom.GorillaTag",
+    "packageVersion": "1.0.6",
+    "type": "Gameplay",
+    "dependencies": [
+        {
+            "id": "monkecodegen",
+            "version": "^0.3.0",
+            "downloadIfMissing": "https://github.com/RedBrumbler/MonkeCodegen/releases/download/0.3.0/MonkeCodegen.qmod"
+        }
+    ],
+    "modFiles": [
+        "libgravmonke.so"
+    ],
+    "libraryFiles": [
+        "libbeatsaber-hook_1_3_5.so"
+    ],
+    "fileCopies": [
+    ]
+}

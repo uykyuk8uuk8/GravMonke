@@ -3,6 +3,13 @@
 
 #include "UnityEngine/Vector3.hpp"
 #include "UnityEngine/RaycastHit.hpp"
+#include "UnityEngine/Physics.hpp"
+
+#include "config.hpp"
+#include "GravMonkeWatchView.hpp"
+#include "monkecomputer/shared/GorillaUI.hpp"
+#include "monkecomputer/shared/Register.hpp"
+#include "custom-types/shared/register.hpp"
 
 ModInfo modInfo;
 
@@ -15,14 +22,19 @@ Logger& getLogger()
 }
 
 bool allowGravMonke = false;
-bool reset = false;
+bool reset = true;
+Vector3 gravityWas = Vector3(0.0f, 0.0f, 0.0f);
 
 using SetGravity = function_ptr_t<void, Vector3&>;
 MAKE_HOOK_OFFSETLESS(Player_GetSlidePercentage, float, Il2CppObject* self, RaycastHit raycastHit)
 {
     static SetGravity set_gravity = reinterpret_cast<SetGravity>(il2cpp_functions::resolve_icall("UnityEngine.Physics::set_gravity_Injected"));
-    if (allowGravMonke)
+    if (allowGravMonke && config.enabled)
     {
+        if (reset)
+        {
+            gravityWas = Physics::get_gravity();
+        }
         reset = false;
         Vector3 gravity = raycastHit.get_normal() * -9.81;
         set_gravity(gravity);
@@ -30,13 +42,11 @@ MAKE_HOOK_OFFSETLESS(Player_GetSlidePercentage, float, Il2CppObject* self, Rayca
     else if (!reset)
     {
         reset = true;
-        Vector3 gravity = Vector3(0.0f, -9.81f, 0.0f);
-        set_gravity(gravity);
+        set_gravity(gravityWas);
     }
 
     return Player_GetSlidePercentage(self, raycastHit);
 }
-
 
 MAKE_HOOK_OFFSETLESS(PhotonNetworkController_OnJoinedRoom, void, Il2CppObject* self)
 {
@@ -54,8 +64,7 @@ MAKE_HOOK_OFFSETLESS(PhotonNetworkController_OnJoinedRoom, void, Il2CppObject* s
     if (!allowGravMonke)
     {
         static SetGravity set_gravity = reinterpret_cast<SetGravity>(il2cpp_functions::resolve_icall("UnityEngine.Physics::set_gravity_Injected"));
-        Vector3 gravity = Vector3(0.0f, -9.81f, 0.0f);
-        set_gravity(gravity);
+        set_gravity(gravityWas);
     }
 }
 
@@ -71,8 +80,16 @@ extern "C" void load()
 {
     getLogger().info("Loading mod...");
 
+    GorillaUI::Init();
+
+    if (!LoadConfig()) 
+            SaveConfig();
+
     INSTALL_HOOK_OFFSETLESS(getLogger(), Player_GetSlidePercentage, il2cpp_utils::FindMethodUnsafe("GorillaLocomotion", "Player", "GetSlidePercentage", 1));
     INSTALL_HOOK_OFFSETLESS(getLogger(), PhotonNetworkController_OnJoinedRoom, il2cpp_utils::FindMethodUnsafe("", "PhotonNetworkController", "OnJoinedRoom", 0));
     
+    custom_types::Register::RegisterType<GravMonke::GravMonkeWatchView>(); 
+    GorillaUI::Register::RegisterWatchView<GravMonke::GravMonkeWatchView*>("Grav Monke", VERSION);
+
     getLogger().info("Mod loaded!");
 }

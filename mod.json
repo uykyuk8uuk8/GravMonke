@@ -1,17 +1,17 @@
 {
-    "_QPVersion": "0.1.0",
+    "_QPVersion": "0.1.1",
     "name": "Grav Monke",
     "id": "GravMonke",
     "author": "RedBrumbler",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "packageId": "com.AnotherAxiom.GorillaTag",
-    "packageVersion": "1.0.6",
+    "packageVersion": "1.0.7",
     "type": "Gameplay",
     "dependencies": [
         {
             "id": "monkecodegen",
-            "version": "^0.3.0",
-            "downloadIfMissing": "https://github.com/RedBrumbler/MonkeCodegen/releases/download/0.3.0/MonkeCodegen.qmod"
+            "version": "^0.4.0",
+            "downloadIfMissing": "https://github.com/RedBrumbler/MonkeCodegen/releases/download/0.4.0/MonkeCodegen.qmod"
         }
     ],
     "modFiles": [

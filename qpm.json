@@ -4,7 +4,7 @@
   "info": {
     "name": "GravMonke",
     "id": "GravMonke",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "url": null,
     "additionalData": {}
   },
@@ -16,6 +16,16 @@
     },
     {
       "id": "monkecodegen",
+      "versionRange": "*",
+      "additionalData": {}
+    },
+    {
+      "id": "monkecomputer",
+      "versionRange": "*",
+      "additionalData": {}
+    },
+    {
+      "id": "custom-types",
       "versionRange": "*",
       "additionalData": {}
     }

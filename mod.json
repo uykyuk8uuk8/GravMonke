@@ -3,8 +3,8 @@
     "name": "Grav Monke",
     "id": "GravMonke",
     "author": "RedBrumbler",
-    "version": "1.1.0",
-    "packageId": "com.AnotherAxiom.GorillaTag",
+    "version": "1.1.1",
+    "packageId": "com.AnotherAxiom.GorillaTag",adb 
     "packageVersion": "1.0.7",
     "type": "Gameplay",
     "dependencies": [

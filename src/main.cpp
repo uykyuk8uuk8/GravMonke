@@ -53,11 +53,7 @@ MAKE_HOOK_OFFSETLESS(PhotonNetworkController_OnJoinedRoom, void, Il2CppObject* s
     PhotonNetworkController_OnJoinedRoom(self);
 
     Il2CppObject* currentRoom = CRASH_UNLESS(il2cpp_utils::RunMethod("Photon.Pun", "PhotonNetwork", "get_CurrentRoom"));
-
-    if (currentRoom)
-    {
-        // get wether or not this is a private room
-        allowGravMonke = !CRASH_UNLESS(il2cpp_utils::RunMethod<bool>(currentRoom, "get_IsVisible"));
+        
     }
     else allowGravMonke = true;
 
